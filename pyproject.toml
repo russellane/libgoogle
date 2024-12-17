@@ -1,0 +1,97 @@
+[project]
+name = "rlane-libgoogle"
+version = "1.0.1"
+description = "Connect to Google Service API's"
+authors = [
+    {name = "Russel Lane", email = "russel@rlane.com"},
+]
+license = {text = "MIT"}
+readme = "README.md"
+keywords = [
+    "api",
+    "client",
+    "connect",
+    "google",
+    "google-api-python-client",
+    "google-auth-httplib2",
+    "google-auth-oauthlib",
+    "httplib2",
+    "oauthlib",
+    "python",
+    "services",
+    "xdg",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "google-api-python-client>=2.155.0",
+    "google-auth-httplib2>=0.2.0",
+    "google-auth-oauthlib>=1.2.1",
+    "loguru>=0.7.3",
+    "xdg>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/russellane/libgoogle"
+
+[dependency-groups]
+dev = [
+    "black>=24.10.0",
+    "flake8-bugbear>=24.12.12",
+    "flake8-pydocstyle>=0.2.5",
+    "flake8-pylint>=0.2.1",
+    "flake8-pytest-style>=2.0.0",
+    "flake8-simplify>=0.21.0",
+    "flake8>=7.1.1",
+    "isort>=5.13.2",
+    "mypy>=1.13.0",
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.4",
+    "rich>=13.9.4",
+    "types-httplib2>=0.22.0.20240310",
+    "types-requests>=2.32.0.20241016",
+]
+
+[tool.black]
+line-length = "97"
+
+[tool.isort]
+line_length = "97"
+profile = "black"
+
+[tool.pylint.format]
+max-line-length = "97"
+
+[tool.pylint.messages_control]
+enable = [
+    "useless-suppression",
+]
+fail-on = [
+    # useless-suppression
+    "I0021",
+]
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = [
+    # "D105",     # pep257 numpy google   # Missing docstring in magic method
+    "D105",
+    # "D202",     # pep257 numpy google   # No blank lines allowed after function docstring
+    "D202",
+]
+
+[tool.mypy]
+strict = true
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+# vim: set ts=4 sw=4 et:
