@@ -4,12 +4,12 @@ Connect to Google services.
 
 The `libgoogle` package provides a function to connect to a google
 service (such as Calendar, Drive and Mail), and manage credentials
-and access tokens.
+and access tokens under the `xdg` schema.
 
 
 ### function connect_to_google
 
-Connect to Google service identified by `scope`.
+Connect to Google service identified by `scope` and `version`.
 
 Args:
     scope:          (valid examples):
@@ -31,9 +31,17 @@ Files:
 
 ### function set_debug
 
-Turn on/off low-level httplib2 debugging.
+Turn on/off low-level `httplib2` debugging.
+
+Args:
+    flag:   True to turn on debugging, False to turn off.
+
 
 ### function use_cache
 
 Use cache or not.
+
+Args:
+    flag:   True to use cache, False to not.
+
 

@@ -1,6 +1,4 @@
-# XXX
-
-"""Google API base class."""
+"""Connect to Google Service API's."""
 
 import httplib2
 import xdg
@@ -17,7 +15,7 @@ _CACHE: dict[str, Resource] = {}
 
 
 def connect_to_google(scope: str, version: str) -> Resource:
-    """Connect to Google service identified by `scope`.
+    """Connect to Google service identified by `scope` and `version`.
 
     Args:
         scope:          (valid examples):
@@ -118,8 +116,8 @@ def use_cache(flag: bool) -> None:
     """Use cache or not.
 
     Args:
-        flag:   True to use cache, False to not."
-    ""
+        flag:   True to use cache, False to not.
+    """
 
     global _USE_CACHE  # pylint: disable=global-statement
     _USE_CACHE = flag
