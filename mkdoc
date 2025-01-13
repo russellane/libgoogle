@@ -4,7 +4,7 @@
 import importlib
 import inspect
 import sys
-from textwrap import dedent
+from textwrap import dedent, indent
 
 
 class MakeDoc:
@@ -25,13 +25,6 @@ class MakeDoc:
         print(self.dedent_doc(mod.__doc__))
         print()
 
-        # members = inspect.getmembers(mod)
-        # for member in [x for x in members if not x[0].startswith("_")]:
-        #     print(f"member={member}")
-
-        # print(f"__all__={mod.__all__}")
-
-        # for symbol in [x for x in dir(mod) if not x.startswith("_")]:
         for symbol in mod.__all__:
             obj = getattr(mod, symbol)
             if inspect.isclass(obj):
@@ -44,7 +37,7 @@ class MakeDoc:
                 # print(f"Skipping FUNCTION {symbol!r}")
                 print(f"### function {symbol}")
                 print()
-                print(self.dedent_doc(obj.__doc__))
+                print(indent(self.dedent_doc(obj.__doc__), " " * 4))
                 print()
             elif inspect.ismethod(obj):
                 # print(f"Skipping METHOD {symbol!r}")
@@ -66,13 +59,18 @@ class MakeDoc:
         try:
             i = doc.index("\n")
         except ValueError:
-            return doc
+            return doc  # Single-line docstring.
+
+        # Multi-line docstring.
+        # Copy the 1st line.
 
         s = doc[:i]
+        # Copy newlines until start of 2nd (non-blank) line.
         while doc[i] == "\n":
             s += "\n"
             i += 1
 
+        # Dedent lines 2 through the remainder.
         s += dedent(doc[i:])
         return s
 

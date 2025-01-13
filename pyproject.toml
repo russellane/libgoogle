@@ -1,6 +1,6 @@
 [project]
 name = "rlane-libgoogle"
-version = "1.0.1"
+version = "1.0.2"
 description = "Connect to Google Service API's"
 authors = [
     {name = "Russel Lane", email = "russel@rlane.com"},
@@ -31,7 +31,7 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "google-api-python-client>=2.155.0",
+    "google-api-python-client>=2.158.0",
     "google-auth-httplib2>=0.2.0",
     "google-auth-oauthlib>=1.2.1",
     "loguru>=0.7.3",
@@ -47,15 +47,15 @@ dev = [
     "flake8-bugbear>=24.12.12",
     "flake8-pydocstyle>=0.2.5",
     "flake8-pylint>=0.2.1",
-    "flake8-pytest-style>=2.0.0",
+    "flake8-pytest-style>=2.1.0",
     "flake8-simplify>=0.21.0",
     "flake8>=7.1.1",
     "isort>=5.13.2",
-    "mypy>=1.13.0",
+    "mypy>=1.14.1",
     "pytest-cov>=6.0.0",
     "pytest>=8.3.4",
     "rich>=13.9.4",
-    "types-httplib2>=0.22.0.20240310",
+    "types-httplib2>=0.22.0.20241221",
     "types-requests>=2.32.0.20241016",
 ]
 
