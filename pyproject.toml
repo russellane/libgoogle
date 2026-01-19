@@ -1,6 +1,6 @@
 [project]
 name = "rlane-libgoogle"
-version = "1.0.2"
+version = "1.0.3"
 description = "Connect to Google Service API's"
 authors = [
     {name = "Russel Lane", email = "russel@rlane.com"},
@@ -70,6 +70,9 @@ profile = "black"
 max-line-length = "97"
 
 [tool.pylint.messages_control]
+disable = [
+    "no-member",  # false positives on dynamic Google API Resource objects
+]
 enable = [
     "useless-suppression",
 ]

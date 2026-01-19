@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Docstring."""
+"""Generate Markdown documentation from a Python module's docstrings."""
 
 import importlib
 import inspect
@@ -8,10 +8,10 @@ from textwrap import dedent, indent
 
 
 class MakeDoc:
-    """Docstring."""
+    """Markdown documentation generator for Python modules."""
 
     def main(self) -> None:
-        """Docstring."""
+        """Parse arguments and generate documentation for the specified module."""
 
         if len(sys.argv) != 2:
             print(f"Usage: {sys.argv[0]} module", file=sys.stderr)
@@ -28,19 +28,19 @@ class MakeDoc:
         for symbol in mod.__all__:
             obj = getattr(mod, symbol)
             if inspect.isclass(obj):
-                # print(f"Skipping CLASS {symbol!r}")
                 print(f"### class {symbol}")
                 print()
                 print(self.dedent_doc(obj.__doc__))
                 print()
             elif inspect.isfunction(obj):
-                # print(f"Skipping FUNCTION {symbol!r}")
+                sig = inspect.signature(obj)
                 print(f"### function {symbol}")
+                print()
+                print(f"```python\n{symbol}{sig}\n```")
                 print()
                 print(indent(self.dedent_doc(obj.__doc__), " " * 4))
                 print()
             elif inspect.ismethod(obj):
-                # print(f"Skipping METHOD {symbol!r}")
                 print(f"### method {symbol}")
                 print()
                 print(self.dedent_doc(obj.__doc__))
@@ -54,7 +54,7 @@ class MakeDoc:
         """Dedent and return the docstring."""
 
         if not doc:
-            return doc
+            return ""
 
         try:
             i = doc.index("\n")
@@ -62,9 +62,7 @@ class MakeDoc:
             return doc  # Single-line docstring.
 
         # Multi-line docstring.
-        # Copy the 1st line.
-
-        s = doc[:i]
+        s = doc[:i]  # Copy the 1st line.
         # Copy newlines until start of 2nd (non-blank) line.
         while doc[i] == "\n":
             s += "\n"

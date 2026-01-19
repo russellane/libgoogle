@@ -13,10 +13,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow  # type: ignore[import-un
 from googleapiclient.discovery import Resource, build  # type: ignore[import-untyped]
 from loguru import logger
 
-__all__ = ["connect", "set_debug", "use_cache"]
-
-_USE_CACHE = False
-_CACHE: dict[str, Resource] = {}
+__all__ = ["connect", "set_debug"]
 
 
 def connect(scope: str, version: str) -> Resource:
@@ -41,34 +38,24 @@ def connect(scope: str, version: str) -> Resource:
     """
 
     # Normalize `scope` to be abbreviated (without the prefix).
-    _scope_prefix = "https://www.googleapis.com/auth/"
-    if scope.startswith(_scope_prefix):
-        scope = scope[len(_scope_prefix) :]  # strip prefix
-
-    # Check the cache, if we're using it.
-    if _USE_CACHE:
-        key = f"{scope}-{version}"
-        if service := _CACHE.get(key):
-            logger.trace(f"Found in cache: key={key!r}")
-            return service
-        logger.trace(f"Not in cache: key={key!r}")
-    else:
-        logger.trace("Not using cache")
+    scope_prefix = "https://www.googleapis.com/auth/"
+    if scope.startswith(scope_prefix):
+        scope = scope[len(scope_prefix) :]  # strip prefix
 
     # Path to user's credentials.
-    _credentials_dir = xdg.xdg_config_home() / "libgoogle"
-    _credentials_dir.mkdir(parents=True, exist_ok=True)
-    credentials_file = _credentials_dir / "credentials.json"
+    credentials_dir = xdg.xdg_config_home() / "libgoogle"
+    credentials_dir.mkdir(parents=True, exist_ok=True)
+    credentials_file = credentials_dir / "credentials.json"
     if not credentials_file.exists():  # pragma: no cover
         raise FileNotFoundError(f"Can't find credentials: {str(credentials_file)!r}")
 
     # Path to access token.
-    _token_dir = xdg.xdg_cache_home() / "libgoogle"
-    _token_dir.mkdir(parents=True, exist_ok=True)
-    token_file = _token_dir / f"{scope}-token.json"
+    token_dir = xdg.xdg_cache_home() / "libgoogle"
+    token_dir.mkdir(parents=True, exist_ok=True)
+    token_file = token_dir / f"{scope}-token.json"
 
     # Check access token.
-    scopes = [_scope_prefix + scope]  # fully qualified
+    scopes = [scope_prefix + scope]  # fully qualified
     creds = None
     if token_file.exists():
         logger.trace(f"Using access token {str(token_file)!r}")
@@ -89,18 +76,15 @@ def connect(scope: str, version: str) -> Resource:
 
     # Connect to service.
     service_name = scope.split(".")[0]
-    service_version = version
-    logger.debug(f"Connecting to service={service_name!r} version={service_version!r}")
+    logger.debug(f"Connecting to service={service_name!r} version={version!r}")
 
     service = build(
         service_name,
-        service_version,
+        version,
         credentials=creds,
         cache_discovery=False,
     )
 
-    if _USE_CACHE:
-        _CACHE[key] = service
     return service
 
 
@@ -115,14 +99,3 @@ def set_debug(flag: bool) -> None:
         httplib2.debuglevel = 4
     else:
         httplib2.debuglevel = 0
-
-
-def use_cache(flag: bool) -> None:
-    """Use cache or not.
-
-    Args:
-        flag:   True to use cache, False to not.
-    """
-
-    global _USE_CACHE  # pylint: disable=global-statement
-    _USE_CACHE = flag

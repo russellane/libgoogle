@@ -9,6 +9,10 @@ and access tokens under the `XDG` schema.
 
 ### function connect
 
+```python
+connect(scope: str, version: str) -> googleapiclient.discovery.Resource
+```
+
     Connect to Google service identified by `scope` and `version`.
 
     Args:
@@ -31,17 +35,13 @@ and access tokens under the `XDG` schema.
 
 ### function set_debug
 
+```python
+set_debug(flag: bool) -> None
+```
+
     Turn on/off low-level `httplib2` debugging.
 
     Args:
         flag:   True to turn on debugging, False to turn off.
-
-
-### function use_cache
-
-    Use cache or not.
-
-    Args:
-        flag:   True to use cache, False to not.
 
 
