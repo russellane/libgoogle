@@ -64,7 +64,7 @@ def connect(scope: str, version: str) -> Resource:
     # Refresh access-token, or (re-)authorize user, as necessary.
     if not creds or not creds.valid:  # pragma: no cover
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())  # type: ignore[no-untyped-call]
+            creds.refresh(Request())
         else:
             logger.debug(f"Signing in with {str(credentials_file)!r}")
             flow = InstalledAppFlow.from_client_secrets_file(credentials_file, scopes)
@@ -96,6 +96,6 @@ def set_debug(flag: bool) -> None:
     """
 
     if flag:
-        httplib2.debuglevel = 4
+        httplib2.debuglevel = 4  # type: ignore[misc]
     else:
-        httplib2.debuglevel = 0
+        httplib2.debuglevel = 0  # type: ignore[misc]
